@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 function Navbar(props) {
-
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -69,8 +68,7 @@ function Navbar(props) {
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
-          >
-          </IconButton>
+          ></IconButton>
           <Typography
             variant="h6"
             component="div"
@@ -80,17 +78,25 @@ function Navbar(props) {
               cursor: "pointer",
             }}
           >
-            Product CRUD
+            <Link style={{ color: "#fff" }} to="/">
+              Product CRUD
+            </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <Link to="/">
-              <Button className="link" sx={{ color: "#fff" }}>Home</Button>
+              <Button className="link" sx={{ color: "#fff" }}>
+                Home
+              </Button>
             </Link>
             <Link to="/products">
-              <Button className="link" sx={{ color: "#fff" }}>Products</Button>
+              <Button className="link" sx={{ color: "#fff" }}>
+                Products
+              </Button>
             </Link>
             <Link to="/add-product">
-              <Button className="link" sx={{ color: "#fff" }}>Add Product</Button>
+              <Button className="link" sx={{ color: "#fff" }}>
+                Add Product
+              </Button>
             </Link>
           </Box>
         </Toolbar>
