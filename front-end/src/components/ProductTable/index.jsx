@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +15,6 @@ import axios from "axios";
 import { Loading } from "../Loading";
 import { QUERY_KEYS } from "../../query_keys";
 import * as ReactBootStrap from "react-bootstrap";
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -51,7 +50,7 @@ function ProductTable() {
   };
 
   const queryClient = useQueryClient();
-  const { error, data } = useQuery("products", () =>
+  const { isLoading, error, data } = useQuery("products", () =>
     axios.get("http://localhost:8080").then((res) => res.data)
   );
 
@@ -77,19 +76,6 @@ function ProductTable() {
 
   return (
     <>
-    {loading ? (
-        <Box
-        style={{
-          textAlign: "center",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "75vh",
-        }}
-      >
-        <ReactBootStrap.Spinner animation="grow" />
-      </Box>
-    ):(
       <div style={{ display: "flex", justifyContent: "center" }}>
         <TableContainer
           component={Paper}
@@ -106,7 +92,6 @@ function ProductTable() {
                 <StyledTableCell align="center">Edit Product</StyledTableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
               {data &&
                 data
@@ -146,10 +131,25 @@ function ProductTable() {
                   })}
             </TableBody>
           </Table>
+          <Loading condition={isLoading}>
+            <Box
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "75vh",
+                margin: "0 auto",
+                width: "100%",
+              }}
+            >
+              <ReactBootStrap.Spinner animation="grow" />
+            </Box>
+          </Loading>
         </TableContainer>
-      </div>)}
+      </div>
     </>
-  )
+  );
 }
 
 export default ProductTable;
