@@ -66,7 +66,6 @@ function ProductTable() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Supplier ID</StyledTableCell>
                 <StyledTableCell align="right">Name</StyledTableCell>
                 <StyledTableCell align="right">Image</StyledTableCell>
                 <StyledTableCell align="right">Price</StyledTableCell>
@@ -83,17 +82,17 @@ function ProductTable() {
                   .map((item, key) => {
                     return (
                       <StyledTableRow key={key}>
-                        <StyledTableCell component="th" scope="row">
-                          {item.id}
+                        <StyledTableCell align="right">
+                          {item.data.name}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {item.name}
+                          <img src={item.data.img} alt="" />
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {item.price}
+                          {item.data.price}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {item.costPrice}
+                          {item.data.costPrice}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                           <Button variant="outlined" color="error">
