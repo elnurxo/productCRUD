@@ -71,8 +71,8 @@ function ProductTable() {
                 <StyledTableCell align="right">Image</StyledTableCell>
                 <StyledTableCell align="right">Price</StyledTableCell>
                 <StyledTableCell align="right">Cost Price</StyledTableCell>
-                <StyledTableCell align="right">Delete Supplier</StyledTableCell>
-                <StyledTableCell align="right">Edit Supplier</StyledTableCell>
+                <StyledTableCell align="right">Delete Product</StyledTableCell>
+                <StyledTableCell align="right">Edit Product</StyledTableCell>
               </TableRow>
             </TableHead>
 
