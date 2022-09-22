@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <Box sx={{ pt: "58px" }}>
+      <Box sx={{ pt: "100px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

@@ -8,9 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
-import toast, { Toaster } from 'react-hot-toast';
-import * as ReactBootStrap from "react-bootstrap";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useMemo } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
+import { Loading } from "../Loading";
+import { QUERY_KEYS } from "../../query_keys";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,65 +37,84 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function ProductTable() {
   const notify = () => {
-    toast.success('Supplier deleted from API successfully!',{
+    toast.success("Supplier deleted from API successfully!", {
       duration: 1800,
       position: "top-center",
-      icon: '👏',
+      icon: "👏",
       theme: {
-        primary: 'green',
-        secondary: 'black',
-      }
+        primary: "green",
+        secondary: "black",
+      },
     });
   };
-  return <>
-    <div style={{ display: "flex", justifyContent: "center" }}>
-        <TableContainer component={Paper} sx={{marginTop:'50px',marginBottom:'50px',maxWidth:'80%'}}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Supplier ID</StyledTableCell>
-              <StyledTableCell align="right">Company Name</StyledTableCell>
-              <StyledTableCell align="right">Contact Name</StyledTableCell>
-              <StyledTableCell align="right">Contact Title</StyledTableCell>
-              <StyledTableCell align="right">
-                  Delete Supplier
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          {/* <TableBody>
-          {suppliers &&
-            suppliers
-              .sort((a, b) => a.id - b.id)
-              .map((item, key) => {
-                return (
-                  <StyledTableRow key={key}>
-                  <StyledTableCell component="th" scope="row">
-                    {item.id}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {item.companyName}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{item.contactName}</StyledTableCell>
-                  <StyledTableCell align="right">{item.contactTitle}</StyledTableCell>
-                  <StyledTableCell align="right">
-                      <Button variant="outlined" color="error"
-                        onClick={() => {
-                          deleteSupplier(item.id);
-                          notify();
-                        }}
-                      >
-                          Delete
-                      </Button>
-                      <Toaster/>
-                  </StyledTableCell>
-                </StyledTableRow>
-                );
-              })}
-          </TableBody> */}
-        </Table>
-      </TableContainer>
+
+  const queryClient = useQueryClient();
+  const { isLoading, error, data } = useQuery("products", () =>
+    axios.get("http://localhost:8080").then((res) => res.data)
+  );
+  console.log(data);
+
+  return (
+    <>
+      <Loading condition={isLoading}>Products loading...</Loading>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <TableContainer
+          component={Paper}
+          sx={{ marginTop: "50px", marginBottom: "50px", maxWidth: "80%" }}
+        >
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Supplier ID</StyledTableCell>
+                <StyledTableCell align="right">Name</StyledTableCell>
+                <StyledTableCell align="right">Image</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">Cost Price</StyledTableCell>
+                <StyledTableCell align="right">Delete Product</StyledTableCell>
+                <StyledTableCell align="right">Edit Product</StyledTableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {data &&
+                data
+                  .sort((a, b) => a.id - b.id)
+                  .map((item, key) => {
+                    return (
+                      <StyledTableRow key={key}>
+                        <StyledTableCell component="th" scope="row">
+                          {item.id}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {item.name}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {item.price}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {item.costPrice}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Button variant="outlined" color="error">
+                            Delete
+                          </Button>
+                          <Toaster />
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Button variant="outlined" color="success">
+                            Edit
+                          </Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-  </>;
+    </>
+  );
 }
 
 export default ProductTable;

@@ -16,35 +16,31 @@ import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 
 const AddProducts = () => {
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("https://northwind.vercel.app/api/categories")
-      .then((res) => setCategories(res.data));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://northwind.vercel.app/api/categories")
+  //     .then((res) => setProducts(res.data));
+  // }, []);
   const formik = useFormik({
     initialValues: {
-      categoryId: "",
       name: "",
-      unitPrice: 0,
-      unitsInStock: 0,
-      discounted: false,
-      quantityPerUnit: "",
+      price: 0,
+      costPrice: 0,
+      image: "",
     },
     validationSchema: Yup.object().shape({
-      categoryId: Yup.string().required("Required"),
       name: Yup.string()
         .required("Required")
         .min(4, "must be at least 4 characters"),
-      unitPrice: Yup.number().required("Required"),
-      unitsInStock: Yup.number().required("Required"),
-      discounted: Yup.bool().required("Required"),
-      quantityPerUnit: Yup.string().required("Required"),
+      price: Yup.number().required("Required").min(0, "price cannot be less than zero"),
+      costPrice: Yup.number().required("Required"),
+      image: Yup.object().required("Required"),
     }),
     onSubmit: async (values) => {
       axios
-        .post("https://northwind.vercel.app/api/products", values)
+        .post("http://localhost:8080/post", values)
         .then((res) => console.log(res.data));
         notify();
         formik.resetForm();
@@ -91,29 +87,6 @@ const AddProducts = () => {
             onSubmit={formik.handleSubmit}
             style={{ padding: "10px 30px", position: "relative" }}
           >
-            <Box sx={{ width: "60%", margin: "0 auto", marginBottom: "20px" }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Categories
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  name="categoryId"
-                  id="categoryId"
-                  label="Category"
-                  {...formik.getFieldProps("categoryId")}
-                  onChange={formik.handleChange}
-                >
-                  {categories?.map((category) => {
-                    return (
-                      <MenuItem key={category.id} value={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Box>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box>
                 <TextField
@@ -145,13 +118,13 @@ const AddProducts = () => {
                   <TextField
                     style={{ width: "90%" }}
                     id="outlined-basic"
-                    label="Unit Price"
+                    label="Price"
                     type="number"
-                    name="unitPrice"
+                    name="price"
                     variant="outlined"
-                    {...formik.getFieldProps("unitPrice")}
+                    {...formik.getFieldProps("price")}
                   />
-                  {formik.errors.unitPrice && (
+                  {formik.errors.price && (
                     <div>
                       <p
                         style={{
@@ -160,7 +133,7 @@ const AddProducts = () => {
                           display: "block",
                         }}
                       >
-                        {formik.errors.unitPrice}
+                        {formik.errors.price}
                       </p>
                     </div>
                   )}
@@ -174,17 +147,17 @@ const AddProducts = () => {
                 marginTop: "20px",
               }}
             >
-              <Box>
+              <Box sx={{display:'flex',justifyContent:'center',margin:'0 auto'}}>
                 <TextField
                   style={{ width: "85%" }}
                   id="outlined-basic"
-                  label="Units in Stock"
+                  label="Cost Price"
                   type="number"
-                  name="unitsInStock"
+                  name="costPrice"
                   variant="outlined"
-                  {...formik.getFieldProps("unitsInStock")}
+                  {...formik.getFieldProps("costPrice")}
                 />
-                {formik.touched.unitsInStock && formik.errors.unitsInStock ? (
+                {formik.touched.costPrice && formik.errors.costPrice ? (
                   <div>
                     <p
                       style={{
@@ -193,28 +166,10 @@ const AddProducts = () => {
                         display: "block",
                       }}
                     >
-                      {formik.errors.unitsInStock}
+                      {formik.errors.costPrice}
                     </p>
                   </div>
                 ) : null}
-              </Box>
-              <Box>
-                <FormControlLabel
-                  style={{
-                    alignSelf: "left",
-                    position: "absolute",
-                    right: "18%",
-                  }}
-                  control={
-                    <Checkbox
-                      color="success"
-                      name="discounted"
-                      defaultChecked
-                      {...formik.getFieldProps("discounted")}
-                    />
-                  }
-                  label="Is Discounted"
-                />
               </Box>
             </Box>
             <Box
@@ -228,14 +183,13 @@ const AddProducts = () => {
                 <TextField
                   style={{ width: "100%" }}
                   id="outlined-basic"
-                  label="Quantity per Unit"
-                  type="string"
-                  name="quantityPerUnit"
+                  type="file"
+                  name="image"
                   variant="outlined"
-                  {...formik.getFieldProps("quantityPerUnit")}
+                  {...formik.getFieldProps("image")}
                 />
-                {formik.touched.quantityPerUnit &&
-                formik.errors.quantityPerUnit ? (
+                {formik.touched.image &&
+                formik.errors.image ? (
                   <div>
                     <p
                       style={{
@@ -244,7 +198,7 @@ const AddProducts = () => {
                         display: "block",
                       }}
                     >
-                      {formik.errors.quantityPerUnit}
+                      {formik.errors.image}
                     </p>
                   </div>
                 ) : null}
