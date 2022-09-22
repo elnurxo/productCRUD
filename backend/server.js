@@ -7,12 +7,7 @@ const app = express();
 const { v4: uuidv4 } = require("uuid");
 
 let data = [
-    { id: 1, data: { name: "iPhone", price: 1000, costPrice: 400, img: "" } },
-    { id: 2, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
-    { id: 3, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
-    { id: 4, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
-    { id: 5, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
-    { id: 6, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
+    { id: 1, data: { name: "iPhone Static", price: 1000, costPrice: 400, img: "" } },
 ];
 
 app.use(cors());
