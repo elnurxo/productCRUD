@@ -36,11 +36,13 @@ app.post("/post", (req, res) => {
 
 app.delete('/delete/:id', (req, res) => {
     const ID = req.params.id;
+    console.log(ID)
     data = data.filter(data => data.id !== ID)
+    console.log(data)
     res.send(data)
 })
 
-// app.delete('/update/:id', (req, res) => {
+// app.put('/update/:id', (req, res) => {
 //     const ID = req.params.id;
 //     data = data.filter(data => data.id !== ID)
 //     res.send(data)
