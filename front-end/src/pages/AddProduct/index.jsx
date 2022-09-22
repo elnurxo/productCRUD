@@ -16,34 +16,31 @@ import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 
 const AddProducts = () => {
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("https://northwind.vercel.app/api/categories")
-      .then((res) => setCategories(res.data));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://northwind.vercel.app/api/categories")
+  //     .then((res) => setProducts(res.data));
+  // }, []);
   const formik = useFormik({
     initialValues: {
-      categoryId: "",
       name: "",
       price: 0,
       costPrice: 0,
       image: "",
     },
     validationSchema: Yup.object().shape({
-      categoryId: Yup.string().required("Required"),
       name: Yup.string()
         .required("Required")
         .min(4, "must be at least 4 characters"),
-      unitPrice: Yup.number().required("Required"),
-      unitsInStock: Yup.number().required("Required"),
-      discounted: Yup.bool().required("Required"),
-      quantityPerUnit: Yup.string().required("Required"),
+      price: Yup.number().required("Required").min(0, "price cannot be less than zero"),
+      costPrice: Yup.number().required("Required"),
+      image: Yup.object().required("Required"),
     }),
     onSubmit: async (values) => {
       axios
-        .post("https://northwind.vercel.app/api/products", values)
+        .post("http://localhost:8080/post", values)
         .then((res) => console.log(res.data));
         notify();
         formik.resetForm();
@@ -150,7 +147,7 @@ const AddProducts = () => {
                 marginTop: "20px",
               }}
             >
-              <Box>
+              <Box sx={{display:'flex',justifyContent:'center',margin:'0 auto'}}>
                 <TextField
                   style={{ width: "85%" }}
                   id="outlined-basic"
