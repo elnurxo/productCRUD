@@ -52,7 +52,12 @@ function ProductTable() {
   const { isLoading, error, data } = useQuery("products", () =>
     axios.get("http://localhost:8080").then((res) => res.data)
   );
-  console.log(data);
+
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:8080/delete/${id}`);
+  };
+
+  const handleEdit = () => {};
 
   return (
     <>
@@ -95,7 +100,11 @@ function ProductTable() {
                           {item.data.costPrice}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          <Button variant="outlined" color="error">
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleDelete(item.id)}
+                          >
                             Delete
                           </Button>
                           <Toaster />
