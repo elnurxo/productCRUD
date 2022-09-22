@@ -54,11 +54,21 @@ function ProductTable() {
   const { error, data } = useQuery("products", () =>
     axios.get("http://localhost:8080").then((res) => res.data)
   );
+<<<<<<< HEAD
   console.log(data);
   const [loading, setLoading] = useState(true);
   setTimeout(() => {
     setLoading(false);
   }, 1000);
+=======
+
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:8080/delete/${id}`);
+  };
+
+  const handleEdit = () => {};
+
+>>>>>>> 650bd34a1eb52deddd53cea767c058561b90fc5d
   return (
     <>
     {loading ? (
@@ -91,6 +101,7 @@ function ProductTable() {
             </TableRow>
           </TableHead>
 
+<<<<<<< HEAD
           <TableBody>
             {data &&
               data
@@ -130,6 +141,49 @@ function ProductTable() {
     </div>
     )}
     
+=======
+            <TableBody>
+              {data &&
+                data
+                  .sort((a, b) => a.id - b.id)
+                  .map((item, key) => {
+                    return (
+                      <StyledTableRow key={key}>
+                        <StyledTableCell align="right">
+                          {item.data.name}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <img src={item.data.img} alt="" />
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {item.data.price}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {item.data.costPrice}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </Button>
+                          <Toaster />
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Button variant="outlined" color="success">
+                            Edit
+                          </Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+>>>>>>> 650bd34a1eb52deddd53cea767c058561b90fc5d
     </>
   );
 }
