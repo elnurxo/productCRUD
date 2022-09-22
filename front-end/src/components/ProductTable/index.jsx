@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,8 @@ import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { Loading } from "../Loading";
 import { QUERY_KEYS } from "../../query_keys";
+import * as ReactBootStrap from "react-bootstrap";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,69 +51,85 @@ function ProductTable() {
   };
 
   const queryClient = useQueryClient();
-  const { isLoading, error, data } = useQuery("products", () =>
+  const { error, data } = useQuery("products", () =>
     axios.get("http://localhost:8080").then((res) => res.data)
   );
   console.log(data);
-
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   return (
     <>
-      <Loading condition={isLoading}>Products loading...</Loading>
-
+    {loading ? (
+        <Box
+        style={{
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "75vh",
+        }}
+      >
+        <ReactBootStrap.Spinner animation="grow" />
+      </Box>
+    ):(
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <TableContainer
-          component={Paper}
-          sx={{ marginTop: "50px", marginBottom: "50px", maxWidth: "80%" }}
-        >
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="right">Name</StyledTableCell>
-                <StyledTableCell align="right">Image</StyledTableCell>
-                <StyledTableCell align="right">Price</StyledTableCell>
-                <StyledTableCell align="right">Cost Price</StyledTableCell>
-                <StyledTableCell align="right">Delete Product</StyledTableCell>
-                <StyledTableCell align="right">Edit Product</StyledTableCell>
-              </TableRow>
-            </TableHead>
+      <TableContainer
+        component={Paper}
+        sx={{ marginTop: "50px", marginBottom: "50px", maxWidth: "80%" }}
+      >
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="right">Name</StyledTableCell>
+              <StyledTableCell align="right">Image</StyledTableCell>
+              <StyledTableCell align="right">Price</StyledTableCell>
+              <StyledTableCell align="right">Cost Price</StyledTableCell>
+              <StyledTableCell align="right">Delete Product</StyledTableCell>
+              <StyledTableCell align="right">Edit Product</StyledTableCell>
+            </TableRow>
+          </TableHead>
 
-            <TableBody>
-              {data &&
-                data
-                  .sort((a, b) => a.id - b.id)
-                  .map((item, key) => {
-                    return (
-                      <StyledTableRow key={key}>
-                        <StyledTableCell align="right">
-                          {item.data.name}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <img src={item.data.img} alt="" />
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {item.data.price}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {item.data.costPrice}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <Button variant="outlined" color="error">
-                            Delete
-                          </Button>
-                          <Toaster />
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <Button variant="outlined" color="success">
-                            Edit
-                          </Button>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+          <TableBody>
+            {data &&
+              data
+                .sort((a, b) => a.id - b.id)
+                .map((item, key) => {
+                  return (
+                    <StyledTableRow key={key}>
+                      <StyledTableCell align="right">
+                        {item.data.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <img src={item.data.img} alt="" />
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {item.data.price}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {item.data.costPrice}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <Button variant="outlined" color="error">
+                          Delete
+                        </Button>
+                        <Toaster />
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <Button variant="outlined" color="success">
+                          Edit
+                        </Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+    )}
+    
     </>
   );
 }
