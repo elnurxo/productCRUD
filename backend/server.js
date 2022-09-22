@@ -34,6 +34,18 @@ app.post('/post', (req, res) => {
     res.send(data)
 })
 
+app.delete('/delete/:id', (req, res) => {
+    const ID = req.params.id;
+    data = data.filter(data => data.id !== ID)
+    res.send(data)
+})
+
+// app.delete('/update/:id', (req, res) => {
+//     const ID = req.params.id;
+//     data = data.filter(data => data.id !== ID)
+//     res.send(data)
+// })
+
 app.listen(8080, () => {
     console.log('Server running on 8080')
 })

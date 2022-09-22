@@ -36,7 +36,7 @@ const AddProducts = () => {
         .min(4, "must be at least 4 characters"),
       price: Yup.number().required("Required").min(0, "price cannot be less than zero"),
       costPrice: Yup.number().required("Required"),
-      image: Yup.object().required("Required"),
+      // image: Yup.object().required("Required"),
     }),
     onSubmit: async (values) => {
       axios
