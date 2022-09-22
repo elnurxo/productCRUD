@@ -86,7 +86,10 @@ function Navbar(props) {
             <Link to="/">
               <Button className="link" sx={{ color: "#fff" }}>Home</Button>
             </Link>
-            <Link to="addsupplier">
+            <Link to="/products">
+              <Button className="link" sx={{ color: "#fff" }}>Products</Button>
+            </Link>
+            <Link to="/add-product">
               <Button className="link" sx={{ color: "#fff" }}>Add Product</Button>
             </Link>
           </Box>
