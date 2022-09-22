@@ -186,6 +186,7 @@ const AddProducts = () => {
                   type="file"
                   name="image"
                   variant="outlined"
+                  multiple
                   {...formik.getFieldProps("image")}
                 />
                 {formik.touched.image &&
