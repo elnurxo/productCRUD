@@ -53,11 +53,25 @@ function ProductTable() {
     axios.get("http://localhost:8080").then((res) => res.data)
   );
 
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:8080/delete/${id}`);
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:8080/delete/${id}`);
   };
 
-  const handleEdit = () => {};
+  // const handleEdit = () => {
+  //   const product = {
+  //     name: "",
+  //     price: 0,
+  //     costPrice: 0,
+  //     image: "",
+  //   };
+
+  //   axios
+  //     .put(
+  //       "http://dummy.restapiexample.com/api/v1/update/{this.state.id}",
+  //       product
+  //     )
+  //     .then((res) => console.log(res.data));
+  // };
 
   return (
     <>
@@ -71,12 +85,12 @@ function ProductTable() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="right">Name</StyledTableCell>
-                <StyledTableCell align="right">Image</StyledTableCell>
-                <StyledTableCell align="right">Price</StyledTableCell>
-                <StyledTableCell align="right">Cost Price</StyledTableCell>
-                <StyledTableCell align="right">Delete Product</StyledTableCell>
-                <StyledTableCell align="right">Edit Product</StyledTableCell>
+                <StyledTableCell align="center">Name</StyledTableCell>
+                <StyledTableCell align="center">Image</StyledTableCell>
+                <StyledTableCell align="center">Price</StyledTableCell>
+                <StyledTableCell align="center">Cost Price</StyledTableCell>
+                <StyledTableCell align="center">Delete Product</StyledTableCell>
+                <StyledTableCell align="center">Edit Product</StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -87,19 +101,19 @@ function ProductTable() {
                   .map((item, key) => {
                     return (
                       <StyledTableRow key={key}>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {item.data.name}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           <img src={item.data.img} alt="" />
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {item.data.price}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {item.data.costPrice}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           <Button
                             variant="outlined"
                             color="error"
@@ -109,7 +123,7 @@ function ProductTable() {
                           </Button>
                           <Toaster />
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           <Button variant="outlined" color="success">
                             Edit
                           </Button>
