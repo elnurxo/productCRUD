@@ -6,7 +6,7 @@ const path = require("path");
 const app = express();
 const { v4: uuidv4 } = require("uuid");
 
-const data = [
+let data = [
   { id: 1, data: { name: "iPhone", price: 1000, costPrice: 400, img: "" } },
   { id: 2, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
   { id: 3, data: { name: "Samsung", price: 800, constPrice: 300, img: "" } },
