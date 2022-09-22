@@ -8,7 +8,8 @@ function App() {
       <Navbar />
       <Box sx={{ pt: "58px" }}>
         <Routes>
-          
+          <Route path="/" element={<Home />} />
+          <Route path="/add-product" element={<Products />} />
         </Routes>
       </Box>
     </>
